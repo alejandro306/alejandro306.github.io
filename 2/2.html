@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Vida, Cielo</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2NNE565F1E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2NNE565F1E');
+    </script>
+    
+    <link rel="icon" type="image/x-icon" href="https://dedicapag.rf.gd/favicon.ico?v=1">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="Para%20Mi%20Vida,%20Cielo_files/themehombre.css">
+    
+    <style>
+        .key {
+            width: 60px;
+            height: 60px;
+            font-size: 1.8em;
+            color: #fff;
+            background: linear-gradient(135deg, #4FC3F7, #0288D1);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            font-family: 'Oswald', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .enter-key {
+            grid-column: span 3;
+            width: auto;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #81D4FA, #0288D1);
+            font-size: 1.5em;
+            font-family: 'Roboto Slab', serif;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+        }
+
+        .imagen {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .album-section {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .album-item {
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .album-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .album-image {
+            width: 100%;
+            height: 280px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .album-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .album-item:hover .album-image img {
+            transform: scale(1.1);
+        }
+        
+        .album-caption {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            margin: 10px 0 5px 0;
+            font-style: italic;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .album-image video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .album-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .album-image {
+                height: 300px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .album-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="music-control">
+        <button class="music-btn" id="musicBtn" aria-label="Toggle music">
+            <svg id="playIcon" viewBox="0 0 24 24" style="display: none;">
+                <path d="M8 5v14l11-7z"></path>
+            </svg>
+            <svg id="pauseIcon" viewBox="0 0 24 24" style="display: block;">
+                <path d="M6 19h4V5H6zm8-14v14h4V5z"></path>
+            </svg>
+        </button>
+        <div class="volume-control" id="volumeControl">
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" aria-label="Volume control">
+        </div>
+    </div>
+    
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="musica/Ricardo Montaner - Bésame - Letra.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="parallax-bg"></div>
+    <div class="overlay-bg"></div>
+    <!-- LLUVIA GLOBAL DE CORAZONES Y ZANAHORIAS -->
+    <div class="global-rain-container"></div>
+    
+    <div class="main-container">
+        <h1 class="title">Para Mi Amada Novia, Que Amo Con Todo Mi Corazón, Y Tambien Para Nuestro Querido Hijo 🐇</h1>
+        
+        <div class="intro glass-effect">
+            <p>Mi niña nose a que hora estes leyendo esto, pero quiero recordarte otra vez lo mucho que te amo y lo importante que eres para mi, lo deseo todo contigo, la amo señorita no lo olvides, el camino no sera facil pero si los dos lo queremos saldremos adelante pase lo que pase.</p>
+            <br>
+            <p>Te digo lo siguiente: amor de casualidad no eres una mezcla de:</p>
+            <br>
+            <p>Boro, Oxigeno, Niquel y Tántalo?</p>
+            <br>
+            <p>lo pregunto porque eres muy.........</p>
+            <p>Pista: Busca los elementos en la tabla periodica</p>
+            <br>
+            <p>Abrazame fuerte ven corriendo a mi te quiero y no hago otra cosa que pensar en ti</p>
+        </div>
+
+        <div class="intro glass-effect">
+            <p>Amor. ¿Sabes porque te amo tanto? Porque me di cuenta de que tú, mi princesa, mi mujer, mi amiga, mi amante y por sobre todo mi amor, tienes algo que nadie mas tiene en este mundo. Talvez no pueda explicartelo exactamente qué es, pero mi amor te juro que mi corazon y cada parte de mi te ama con la maxima intensidad. Eres la razon por la que veo la vida diferenta y por la razon por la que despierto feliz cada mañana.</p>
+            <br>
+            <p>Dejame demostrarte que soy diferente al resto.</p>
+            <p>Dejame enseñarte que mis sentimientos y todo esto que siento por ti son reales y sinceros.</p>
+            <p>Déjame mostrarte un amor sin miedos, donde entregarlo todo no signifique arriesgarse a una traición o al abandono.</p>
+            <br>
+            <p>Cada noche cierro los ojos con la certeza de que tengo lo más valioso del universo, y eres tú. Eres todo lo que soñé y aquello que siempre estuve buscando.</p>
+            <br>
+            <p>Gracias por elegirme y por amarme tanto.</p>
+            <p>Yo si quiero amarte siempre, cuidarte, protegerte, darte todo de mi y hacerte la mujer mas feliz del mundo, mi amor.</p>
+        </div>
+
+        <div class="intro glass-effect">
+            <h2>Te amo en 100 idiomas diferentes:</h2>
+            <br>
+            <p>1. 🇦🇱 Albanés — Të dua</p>
+            <p>2. 🇩🇪 Alemán — Ich liebe dich</p>
+            <p>3. 🇸🇦 Árabe — Ana behibek</p>
+            <p>4. 🇦🇲 Armenio — Yes kez sirumen</p>
+            <p>5. 🇧🇩 Bengalí — Ami tomake bhalobashi</p>
+            <p>6. 🇧🇾 Bielorruso — Ya tabe kahayu</p>
+            <p>7. 🇧🇴 Birmano — Chit pa de</p>
+            <p>8. 🇧🇦 Bosnio — Volim te</p>
+            <p>9. 🇧🇬 Búlgaro — Obicham te</p>
+            <p>10. 🇰🇭 Camboyano — Bong sralanh oun</p>
+            <p>11. 🇨🇦 Catalán — T'estimo</p>
+            <p>12. 🇨🇿 Checo — Miluji tě</p>
+            <p>13. 🇨🇳 Chino mandarín — Wǒ ài nǐ</p>
+            <p>14. 🇰🇷 Coreano — Saranghae</p>
+            <p>15. 🇭🇷 Croata — Volim te</p>
+            <p>16. 🇩🇰 Danés — Jeg elsker dig</p>
+            <p>17. 🇸🇰 Eslovaco — Ľúbim ťa</p>
+            <p>18. 🇸🇮 Esloveno — Ljubim te</p>
+            <p>19. 🇪🇸 Español — Te amo</p>
+            <p>20. 🇪🇪 Estonio — Ma armastan sind</p>
+            <p>21. 🇵🇭 Filipino — Mahal kita</p>
+            <p>22. 🇫🇮 Finlandés — Minä rakastan sinua</p>
+            <p>23. 🇫🇷 Francés — Je t'aime</p>
+            <p>24. Gaélico escocés — Tha gaol agam ort</p>
+            <p>25. 🇬🇪 Georgiano — Mikvarkhar</p>
+            <p>26. 🇬🇷 Griego — S'agapó</p>
+            <p>27. 🇬🇱 Groenlandés — Asavakkit</p>
+            <p>28. 🇬🇺 Guaraní — Rohayhu</p>
+            <p>29. 🇮🇳 Gujarati — Hu tane prem karu chu</p>
+            <p>30. 🇭🇹 Criollo haitiano — Mwen renmen ou</p>
+            <p>31. 🇮🇱 Hebreo — Ani ohev otaj</p>
+            <p>32. 🇮🇳 Hindi — Main tumse pyar karta hoon</p>
+            <p>33. 🇭🇺 Húngaro — Szeretlek</p>
+            <p>34. 🇮🇸 Islandés — Ég elska þig</p>
+            <p>35. 🇮🇩 Indonesio — Aku cinta kamu</p>
+            <p>36. 🇬🇧 Inglés — I love you</p>
+            <p>37. 🇮🇪 Irlandés — Tá grá agam duit</p>
+            <p>38. 🇮🇹 Italiano — Ti amo</p>
+            <p>39. 🇯🇵 Japonés — Aishiteru</p>
+            <p>40. 🇰🇿 Kazajo — Men seni jaksy koremin</p>
+            <p>41. 🇰🇪 Kikuyu — Nigwendete</p>
+            <p>42. 🇷🇼 Kinyarwanda — Ndagukunda</p>
+            <p>43. 🇰🇬 Kirguís — Men seni süyöm</p>
+            <p>44. 🇱🇦 Laosiano — Khoi hak jao</p>
+            <p>45. 🇱🇻 Letón — Es tevi mīlu</p>
+            <p>46. 🇱🇹 Lituano — Aš tave myliu</p>
+            <p>47. 🇱🇺 Luxemburgués — Ech hunn dech gär</p>
+            <p>48. 🇲🇰 Macedonio — Te sakam</p>
+            <p>49. 🇲🇾 Malayo — Saya cinta padamu</p>
+            <p>50. 🇲🇬 Malgache — Tiako ianao</p>
+            <p>51. 🇲🇹 Maltés — Inħobbok</p>
+            <p>52. 🇲🇦 Marroquí — Kanbghik</p>
+            <p>53. 🇲🇳 Mongol — Bi chamd khairtai</p>
+            <p>54. 🇳🇵 Nepalí — Ma timilai maya garchu</p>
+            <p>55. 🇳🇴 Noruego — Jeg elsker deg</p>
+            <p>56. 🇳🇱 Neerlandés — Ik hou van jou</p>
+            <p>57. 🇵🇰 Urdu — Main tumse mohabbat karta hoon</p>
+            <p>58. 🇮🇷 Persa — Dooset daram</p>
+            <p>59. 🇵🇱 Polaco — Kocham cię</p>
+            <p>60. 🇵🇹 Portugués — Eu te amo</p>
+            <p>61. 🇵🇪 Quechua — Munayki</p>
+            <p>62. 🇷🇴 Rumano — Te iubesc</p>
+            <p>63. 🇷🇺 Ruso — Ya tebya lyublyu</p>
+            <p>64. 🇼🇸 Samoano — Oute alofa ia te oe</p>
+            <p>65. 🇷🇸 Serbio — Volim te</p>
+            <p>66. 🇱🇰 Cingalés — Mama oyāta ādareyi</p>
+            <p>67. 🇸🇴 Somalí — Waan ku jeclahay</p>
+            <p>68. 🇸🇪 Sueco — Jag älskar dig</p>
+            <p>69. 🇨🇭 Suizo alemán — Ich lieb dich</p>
+            <p>70. 🇹🇯 Tayiko — Man turo dust medoram</p>
+            <p>71. 🇹🇭 Tailandés — Phom rak khun</p>
+            <p>72. 🇹🇿 Suajili — Nakupenda</p>
+            <p>73. 🇹🇼 Taiwanés — Gwa ài lì</p>
+            <p>74. 🇮🇳 Tamil — Naan unnai kathalikaren</p>
+            <p>75. 🇮🇳 Telugu — Nenu ninnu premisthunnanu</p>
+            <p>76. 🇹🇷 Turco — Seni seviyorum</p>
+            <p>77. 🇺🇦 Ucraniano — Ya tebe kohayu</p>
+            <p>78. 🇺🇾 Urdu — Main tumse pyar karta hoon</p>
+            <p>79. 🇺🇿 Uzbeko — Men seni sevaman</p>
+            <p>80. 🇻🇳 Vietnamita — Anh yêu em</p>
+            <p>81. Galés — Rwy'n dy garu di</p>
+            <p>82. 🇿🇦 Xhosa — Ndiyakuthanda</p>
+            <p>83. 🇮🇱 Yidis — Ikh hob dikh lib</p>
+            <p>84. 🇳🇬 Yoruba — Mo nifẹ rẹ</p>
+            <p>85. 🇿🇦 Zulú — Ngiyakuthanda</p>
+            <p>86. 🇪🇹 Amárico — Ewedishalehu</p>
+            <p>87. 🇦🇿 Azerí — Mən səni sevirəm</p>
+            <p>88. 🇪🇸 Euskera — Maite zaitut</p>
+            <p>89. 🇫🇯 Fiyiano — Au domoni iko</p>
+            <p>90. 🇭🇰 Cantonés — Ngóh oi néih</p>
+            <p>91. 🇮🇳 Kannada — Naanu ninna preetisuttene</p>
+            <p>92. 🇱🇸 Sesotho — Kea u rata</p>
+            <p>93. 🇲🇼 Chichewa — Ndimakukonda</p>
+            <p>94. 🇳🇿 Maorí — Kei te aroha au ki a koe</p>
+            <p>95. 🇵🇬 Tok Pisin — Mi laikim yu</p>
+            <p>96. 🇸🇨 Criollo seychellense — Mon kontan ou</p>
+            <p>97. 🇸🇱 Criollo sierraleonés — A lèk yu</p>
+            <p>98. 🇹🇱 Tetum — Hau hadomi ó</p>
+            <p>99. 🇹🇴 Tongano — 'Ofa atu</p>
+            <p>100. Y en todos los idiomas del universo... <strong>TE AMO</strong> ❤️</p>
+        </div>
+
+        <div class="quote-section glass-effect">
+            "Tú eres mi hogar, donde todo tiene sentido; mi refugio, donde la calma me envuelve; y mi amor eterno, la razón por la que todo en mi vida cambió para bien."
+        </div>
+
+        <div class="quote-section glass-effect">
+            <p>Quizás Dios nos separó porque aún nos faltaba crecer, aprender a querernos como merecíamos. Pero su plan era más grande, y nos dio una nueva oportunidad. Esta vez, tomados de la mano, lo haremos bien.</p>
+        </div>  
+        
+        <div class="quote-section glass-effect">
+            <p>Este poema va dedicado para ti mi amor:</p>
+            <p>"En el universo existen miles de galaxias, pero la mas hermosa vive en tus ojos porque en ellos brillan todas las estrellas, y en tu ser habita el universo enterto...."</p>
+        </div>
+
+        <div class="quote-section glass-effect">
+            <p>Si alguna vez te sientes sola, te dedico esto:</p>
+            <p>"Aunque haya dias en los que el silecio te acompañe mas de la cuenta, nunca olvides que hay una persona que te aprecia te ama y te quiere ver salir adelante de verdad. Y cuando la tristeza quiera hacerte sufrir, recuerda que siempre podras contar conmigo y yo estare ahi para ti siempre, tu una vez me dijiste que tu eres mi esposa, mi prometida, mi amiga, mi amante y mi amor. Ahora to te digo, yo soy tu esposo, tu prometido, tu amigo, tu amante, pero sobre todo eso soy tu amor, desde el dia que nos volvimos a dar otra oportunidad recuerda que ya no estas solo, siempre contaras conmigo para todo."</p>
+        </div>
+        
+        <div class="memory-item hover-effect">
+            <h3 style="text-align: center;">El amor que siempre pedi ♥</h3>                            
+            <br>
+            <p>Siempre pedi un amor real, de esos que no se rinden ante la primera tormenta, de esos que permanecen cuando la vida se pone dificil.</p>
+            <p>Y entonces llegaste tú. Siempre sonñe con un amor que, a pesar de los problemas, los malos momentos y las pruebas del destino, elegiera quedarse.</p>
+            <p>Un amor que siguiera caminando de la mano entre lagrimas y sonrisas, entre dramas y alegrias, siempre juntos. Y contigo encontre ese sueño.</p>
+            <p>Porque te amo, y cada dia deseo que nuestro amor siga creciendo. Quiero que seas el amor de mis mañanas, de mis noches, de mis mejores recuerdos y de todos mis futuros. Quiero que seas el amor de mis dias y, si la vida me lo permite, el amor de toda mi vida.</p>
+            <p>Gracias por esatr a mi lado, por elegirme incluso en los dias imperfectos, por convertir lo cotidiano en algo especial y por llenar mi corazon de una felicidad que no sabia que existia. Si hoy creo mas en el amor, es porque tu estas en mi vida.</p>
+            <p>Se que al principio pasamos por cosas malas, pero asi como las pasamos la vida se esta encargando de recompensarnos y ahora a nosotros nos toca ser felices, no sera facil, lose pero si ambos lo queremos nada ni nadie nos lograra separar, tu eres mi todo, nunca lo olvides.</p>
+            <p>TE AMO ESPOSA MIA.</p>
+            <div class="divider"></div>
+        </div>
+
+        <div class="memory-item hover-effect">
+            <h3 style="text-align: center;">Una pequeña parte de lo que mi corazon siente por ti ♥</h3>                            
+            <br>
+            <p>Enarmorarme de ti ha sido lo mas facil que he hecho en mi vida.</p>
+            <p>No me importa nada mas que tu, y cada dia de mi vida estoy consiente de eso......</p>
+            <p>Te ame desde el dia en el que te conoci, te amo hoy y te amare el resto de mi vida.</p>        
+            <div class="divider"></div>
+        </div>
+
+        <div class="quote-section glass-effect">
+            <p>Sabes aun tengo mucho que aprender sobre el amor, pero quiero aprenderlo contigo, aun tengo muchos defectos por corregir, pero quiero corregirlos por nosotros dos, aun no alcanzo mi mejor version, pero quiero que seas tu quien lo disfrute, aun quedan muchas cosas por vivir, y quiero vivirlas contigo. ♥</p>            
+        </div>
+
+        <div class="album-section">
+            <h2 class="section-title">Álbum de Recuerdos</h2>
+            
+            <div class="quote-section glass-effect">
+                <p>Nuestro amor se merecía otro intento. Y aquí estamos, dándonoslo todo.</p>
+            </div>
+
+            <div class="album-grid">                
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/mother.jpeg" alt="Mamá">
+                    </div>
+                    <p class="album-caption">Mamá</p>
+                </div>
+                
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/father.jpeg" alt="Papá">
+                    </div>
+                    <p class="album-caption">Papá</p>
+                </div>
+            
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/hijo.png" alt="Hijo">
+                    </div>
+                    <p class="album-caption">Hijo</p>
+                </div>
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/Juntos.jpeg" alt="Nuestra primera foto pero no la ultima">
+                    </div>
+                    <p class="album-caption">Nuestra primera foto pero no la ultima</p>
+                </div>
+                
+                <div class="album-item glass-effect">
+                    <div class="album-image video">
+                        <video src="amor/traicion.mp4" controls preload="metadata" style="width: 100%; height: 100%; object-fit: cover;"></video>
+                    </div>
+                    <p class="album-caption">El dia de la traicion 05-06-2026</p>
+                    <p class="album-caption">Algun dia me vengare 😤</p>
+                </div>
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/faltawebp.webp" alt="BLOQUEADO 🔐">
+                    </div>
+                    <p class="album-caption">BLOQUEADO PARA MAS RECUERDOS</p>
+                </div>
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/faltawebp.webp" alt="BLOQUEADO 🔐">
+                    </div>
+                    <p class="album-caption">BLOQUEADO PARA MAS RECUERDOS</p>
+                </div>
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/faltawebp.webp" alt="BLOQUEADO 🔐">
+                    </div>
+                    <p class="album-caption">BLOQUEADO PARA MAS RECUERDOS</p>
+                </div>
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/faltawebp.webp" alt="BLOQUEADO 🔐">
+                    </div>
+                    <p class="album-caption">BLOQUEADO PARA MAS RECUERDOS</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="memory-section glass-effect fade-in-section visible">
+            <h2 class="section-title">Musicas</h2>
+            <div class="memory-item hover-effect">
+                <h3>Tus Canciones para mi</h3>                
+                <a href="https://youtu.be/gxpZACTREPs?si=DRarvM9k3rFUD2Wu" style="text-decoration: none; color:inherit"><p>Ali Gatie - It's You</p></a>
+                <br>
+                <p>Cuando me compartiste esa canción, entendí algo muy importante: después de todo lo que viviste, estabas eligiendo volver a confiar. Y esta vez, quiero que estés segura de algo: yo jamás te voy a lastimar. Vamos a discutir, como cualquier pareja, pero eso nunca será razón para soltarte. Siempre voy a estar aquí para ti, pase lo que pase. Si el mundo se te viene encima, yo me pongo a tu lado y lo enfrentamos juntos. Si te caes, nos caemos los dos; nos sacudimos el polvo y seguimos caminando. Contigo lo quiero todo, absolutamente todo. Nunca dudes de mi amor, porque es lo más real que tengo.</p>
+                <div class="divider"></div>
+            </div>
+            <div class="memory-item hover-effect">
+                <h3>Mis Canciónes para ti</h3>                
+                <a href="https://youtu.be/xV9mqKWBqaw?si=q-6RjNgBQiQkxKH5" style="text-decoration: none; color:inherit"><p>Es verdad - Daniel Me Estas Matando</p></a>
+                <br>
+                <p>Como dice la canción: "eres cauce de luz, río de casualidades". Así te siento, como un río de luz que llegó a iluminar mi vida cuando más lo necesitaba. No quisiera explicarte lo que siento, solo sé que al mirarte... simplemente es verdad. Eres mi verdad. Te amo</p>
+                <div class="divider"></div>
+                <a href="https://youtu.be/lUy1-gE-6dE?si=XhAsEArfUtlBdYJd" style="text-decoration: none; color:inherit"><p>Here With Me - d4vd</p></a>
+                <br>
+                <p><p>Esta canción es para ti, mi amor. Porque no me importa cuánto tiempo tome, mientras esté contigo tengo una sonrisa en el rostro. Guarda tus lágrimas, todo va a estar bien... porque estás aquí conmigo. Cada momento a tu lado ha sido el más grande de mi vida. Quiero vivirlos todos otra vez. Te amo</p></p>
+                <div class="divider"></div>                            
+                <a href="https://youtu.be/LWn3y3jaUf0?si=QcLt6b4ZIXyZsh6c" style="text-decoration: none; color:inherit"><p>Tan Enamorados - Ricardo Montaner</p></a>
+                <br>
+                <p>Esta canción me recuerda a nosotros. A nuestras noches, a nuestras risas, a esta aventura que estamos viviendo juntos. Lo nuestro es como es, y no le hace falta nada. Porque estamos tan enamorados que hasta el tiempo nos regala minutos extra. Y yo te juro que te voy a amar aquí, arriba y donde sea. Siempre contigo. Te amo</p>
+                <div class="divider"></div>            
+            </div>            
+        </div>        
+
+        <button class="heart-btn" id="openLetterBtn"><span>💕</span></button>
+
+        <div class="letter-overlay" id="letterOverlay">
+            <div class="letter-card">
+                <button class="close" id="closeLetterBtn">×</button>
+                <h2>Una Carta De Amor Para Ti</h2>
+                <div class="typewriter-container" id="typewriterText">
+                    <div class="line"><span class="text"></span><span class="cursor"></span></div>
+                </div>
+                <p class="signature">Con todo mi amor, Alejandro.</p>
+            </div>
+        </div>
+
+        <div class="album-section">
+            <h2 class="section-title">Tus Fotografias</h2>
+            
+            <div class="quote-section glass-effect">
+                <p>Las fotografias que me enviaste, y depende de ti si quieres que esta seccion cresca</p>
+            </div>
+
+            <div class="album-grid">                
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/eres tu.jpeg" alt="Mi amor">
+                    </div>
+                    <p class="album-caption">Me gusta cada parte de ti, tu eres mi todo.</p>
+                </div>
+                
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/ojitos.jpeg" alt="Te amo">
+                    </div>
+                    <p class="album-caption">Esos ojitos, los cuales me sacaron de la oscuridad.</p>
+                </div>
+            
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img style="width: 180px;" src="amor/fondop.jpeg" alt="Te quiero">
+                    </div>
+                    <p class="album-caption">Mi hermoso fondo de pantalla el cual me encanta</p>
+                </div>
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/pose.jpeg" alt="Eres mi todo">
+                    </div>
+                    <p class="album-caption">Y tu, que me vuelves loco con esos ojitos, carita, boquita y todos los gestos que haces. Te Amo ♥</p>
+                </div>                                
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/faltawebp.webp" alt="BLOQUEADO 🔐">
+                    </div>
+                    <p class="album-caption">RESERVADO PARA MAS FOTOS QUE ME ENVIES</p>
+                </div>
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/faltawebp.webp" alt="BLOQUEADO 🔐">
+                    </div>
+                    <p class="album-caption">RESERVADO PARA MAS FOTOS QUE ME ENVIES</p>
+                </div>
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/faltawebp.webp" alt="BLOQUEADO 🔐">
+                    </div>
+                    <p class="album-caption">RESERVADO PARA MAS FOTOS QUE ME ENVIES</p>
+                </div>
+
+                <div class="album-item glass-effect">
+                    <div class="album-image">
+                        <img src="amor/faltawebp.webp" alt="BLOQUEADO 🔐">
+                    </div>
+                    <p class="album-caption">RESERVADO PARA MAS FOTOS QUE ME ENVIES</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="time-since-birth glass-effect fade-in-section visible">
+            <div class="time-title">Tiempo Desde Que Nos Dimos Otra Opotunidad</div>
+            <div class="time-display" id="timeDisplay">48:10:08:90</div>
+            <div class="time-label">Días : Horas : Min : Seg</div>
+            <div class="personalized-message">Desde que nos dimos otra oportunidad, has sido lo más preciado en mi vida.</div>
+        </div>
+
+        <!-- <div class="future-plans glass-effect fade-in-section visible">
+            <h2 class="section-title">Nuestro Futuro</h2>
+            <p>Imagina los días que vendrán: viajes, risas, y un amor que crece cada día. Contigo, todo es posible.</p>
+        </div> -->
+
+        <div class="love-meter glass-effect fade-in-section visible">
+            <div class="hearts-container"></div>
+            <h2>❤️‍🔥</h2>
+            <div class="meter-container">
+                <div class="meter-fill active"></div>
+            </div>
+            <div class="meter-text">100% Enamorado de ti</div>
+        </div>
+
+        <div class="end-message glass-effect fade-in-section visible">
+            Hecho con todo mi corazón para la mujer que ilumina mi mundo. Para mi mujer<p class="signature">Ruth Cielo ❤</p>
+        </div>
+    </div>    
+
+    <div class="footer">
+        <p>© 2026 Creado por Alejandro y hecho con amor para Cielo</p>
+    </div>
+
+    <script>
+        // ===== LLUVIA GLOBAL DE CORAZONES Y ZANAHORIAS =====
+        function createGlobalRain() {
+            const container = document.querySelector('.global-rain-container');
+            if (!container) return;
+            
+            const emojis = ['❤️', '💕', '💖', '💘', '💝', '💗', '💓', '❤️‍🔥', '🥕', '🥕', '🥕', '🐇', '🐰'];
+            
+            function createParticle() {
+                const particle = document.createElement('span');
+                particle.className = 'rain-particle';
+                particle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 8 + 5) + 's';
+                particle.style.fontSize = (Math.random() * 1.8 + 1) + 'em';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                
+                if (particle.innerHTML === '🥕') {
+                    particle.style.animationDuration = (Math.random() * 10 + 6) + 's';
+                }
+                
+                container.appendChild(particle);
+                setTimeout(() => particle.remove(), 13000);
+            }
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createParticle, i * 200);
+            }
+            
+            setInterval(createParticle, 500);
+        }
+
+        createGlobalRain();
+
+        function createStars() {
+            const sky = document.querySelector('.overlay-bg');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'particle';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animation = `fadeInUp ${Math.random() * 2 + 1}s infinite`;
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                sky.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        let typewriterTimeout = null;
+
+        function typeLine(lineElement, text, speed = 20, onDone) {
+            const textSpan = lineElement.querySelector('.text');
+            const cursor = lineElement.querySelector('.cursor');
+            textSpan.textContent = '';
+            lineElement.classList.add('active');
+            let index = 0;
+
+            function typeChar() {
+                if (index < text.length) {
+                    textSpan.textContent += text.charAt(index);
+                    index++;
+                    typewriterTimeout = setTimeout(typeChar, speed);
+                } else {
+                    cursor.style.display = 'none';
+                    if (onDone) onDone();
+                }
+            }
+
+            cursor.style.display = 'inline-block';
+            typeChar();
+        }
+
+        function createRain() {
+        const container = document.querySelector('.hearts-container');
+        if (!container) return;
+        
+        const emojis = ['❤️', '💕', '💖', '💘', '💝', '💗', '💓', '🥕', '🥕', '🥕', '🐇', '🐰'];
+        
+        setInterval(() => {
+            const particle = document.createElement('span');
+            particle.className = 'rain-particle';
+            particle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            particle.style.fontSize = (Math.random() * 1.5 + 1) + 'em';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(particle);
+            
+            // Eliminar la partícula después de que termine la animación
+            setTimeout(() => particle.remove(), 5000);
+        }, 300);
+    }
+
+    // Iniciar la lluvia cuando la página cargue
+    createRain();
+
+        function openLetterModal() {
+            const overlay = document.getElementById('letterOverlay');
+            const typewriterText = document.getElementById('typewriterText');
+            const lines = typewriterText.querySelectorAll('.line');
+            const texts = [
+                ' Esta carta es para mi mujer, Mi querida Cielo,' +
+                ' ¿Sabes qué es lo que más me gusta de nosotros? Que somos reales. Que no somos perfectos, pero somos nosotros. Que podemos reírnos de cualquier tontería, llorar juntos cuando algo duele, y abrazarnos sin decir nada porque sobran las palabras.' +
+                ' Contigo siento que puedo ser yo mismo. Sin máscaras, sin filtros, sin miedo. Y eso es lo más valioso que alguien puede darte. Tú me diste esa libertad, esa paz, esa confianza que nunca antes había sentido.' +
+                ' Quiero que sepas que te admiro muchísimo. Por tu fuerza, por tu valentía, por todo lo que has superado. Eres la mujer más increíble que conozco y me siento el hombre más afortunado del mundo por tenerte a mi lado.' +
+                ' Si alguna vez dudas de algo, duda de todo menos de mi amor por ti. Porque es lo más real, lo más sincero y lo más eterno que tengo.' +
+                ' Gracias por reaparecer en mi vida justo cuando tenía que ser.' +
+                ' Te amo, hoy, mañana y siempre. Alejandro ❤.'
+            ].filter(text => text.trim() !== '');
+
+            if (typewriterTimeout) {
+                clearTimeout(typewriterTimeout);
+                typewriterTimeout = null;
+            }
+
+            lines.forEach(line => {
+                const textSpan = line.querySelector('.text');
+                const cursor = line.querySelector('.cursor');
+                textSpan.textContent = '';
+                cursor.style.display = 'none';
+                line.classList.remove('active');
+            });
+
+            overlay.style.display = 'flex';
+
+            function typeNextLine(index) {
+                if (index < lines.length && index < texts.length && texts[index]) {
+                    typeLine(lines[index], texts[index], 20, () => {
+                        typeNextLine(index + 1);
+                    });
+                } else {
+                    lines.forEach(line => line.querySelector('.cursor').style.display = 'none');
+                }
+            }
+
+            typeNextLine(0);
+        }
+
+        document.getElementById('openLetterBtn').addEventListener('click', openLetterModal);
+
+        document.getElementById('closeLetterBtn').addEventListener('click', () => {
+            const overlay = document.getElementById('letterOverlay');
+            const typewriterText = document.getElementById('typewriterText');
+            const lines = typewriterText.querySelectorAll('.line');
+
+            if (typewriterTimeout) {
+                clearTimeout(typewriterTimeout);
+                typewriterTimeout = null;
+            }
+
+            lines.forEach(line => {
+                const textSpan = line.querySelector('.text');
+                const cursor = line.querySelector('.cursor');
+                textSpan.textContent = '';
+                cursor.style.display = 'none';
+            });
+
+            overlay.style.display = 'none';
+        });
+
+        window.onclick = function(event) {
+            const overlay = document.getElementById('letterOverlay');
+            if (event.target === overlay) {
+                const typewriterText = document.getElementById('typewriterText');
+                const lines = typewriterText.querySelectorAll('.line');
+
+                if (typewriterTimeout) {
+                    clearTimeout(typewriterTimeout);
+                    typewriterTimeout = null;
+                }
+
+                lines.forEach(line => {
+                    const textSpan = line.querySelector('.text');
+                    const cursor = line.querySelector('.cursor');
+                    textSpan.textContent = '';
+                    cursor.style.display = 'none';
+                });
+
+                overlay.style.display = 'none';
+            }
+        };
+
+        const fadeSections = document.querySelectorAll('.fade-in-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.classList.contains('love-meter')) {
+                        const meterFill = entry.target.querySelector('.meter-fill');
+                        setTimeout(() => {
+                            meterFill.classList.add('active');
+                        }, 500);
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeSections.forEach(section => observer.observe(section));
+
+        document.addEventListener('click', (e) => {
+            for (let i = 0; i < 10; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${e.clientX}px`;
+                particle.style.top = `${e.clientY}px`;
+                particle.style.animation = `zoomIn 0.8s ease-out`;
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 800);
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector(anchor.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        let days = 51;
+        let hours = 10;
+        let minutes = 30;
+        let seconds = 45;
+        const timeDisplay = document.getElementById('timeDisplay');
+
+        function updateTime() {
+            seconds++;
+            if (seconds >= 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes >= 60) {
+                minutes = 0;
+                hours++;
+            }
+            if (hours >= 24) {
+                hours = 0;
+                days++;
+            }
+            timeDisplay.textContent = `${days.toString().padStart(3, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        setInterval(updateTime, 1000);
+
+        function toggleMusic() {
+            const music = document.getElementById('backgroundMusic');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            if (!music) {
+                console.error('No music element found');
+                return;
+            }
+            if (music.paused) {
+                music.play().then(() => {
+                    console.log('Music playing at:', music.currentTime);
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                }).catch(error => {
+                    console.error('Error playing audio:', error.message);
+                });
+            } else {
+                music.pause();
+                console.log('Music paused at:', music.currentTime);
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+        }
+
+        window.onload = function() {
+            const music = document.getElementById('backgroundMusic');
+            const musicBtn = document.getElementById('musicBtn');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumeControl = document.getElementById('volumeControl');
+
+            if (!music || !musicBtn || !volumeSlider || !volumeControl) {
+                console.error('Music or control elements not found');
+                return;
+            }
+
+            music.volume = volumeSlider.value;
+
+            music.load();
+            music.currentTime = 0;
+            music.play().then(() => {
+                console.log('Autoplay successful at:', music.currentTime);
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            }).catch(error => {
+                console.warn('Autoplay blocked:', error.message);
+            });
+
+            musicBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMusic();
+                if (!volumeControl.classList.contains('visible')) {
+                    volumeControl.classList.add('visible');
+                    clearTimeout(hideVolumeTimeout);
+                    hideVolumeTimeout = setTimeout(() => volumeControl.classList.remove('visible'), 2000);
+                } else {
+                    volumeControl.classList.remove('visible');
+                }
+            });
+
+            let hideVolumeTimeout = null;
+            volumeSlider.addEventListener('input', (e) => {
+                music.volume = e.target.value;
+                console.log('Volume set to:', music.volume);
+                clearTimeout(hideVolumeTimeout);
+                volumeControl.classList.add('visible');
+            });
+
+            volumeSlider.addEventListener('change', () => {
+                hideVolumeTimeout = setTimeout(() => volumeControl.classList.remove('visible'), 2000);
+            });
+
+            volumeControl.addEventListener('mouseenter', () => clearTimeout(hideVolumeTimeout));
+            volumeControl.addEventListener('mouseleave', () => {
+                hideVolumeTimeout = setTimeout(() => volumeControl.classList.remove('visible'), 2000);
+            });
+
+            volumeSlider.addEventListener('touchstart', (e) => {
+                e.stopPropagation();
+                clearTimeout(hideVolumeTimeout);
+            });
+            volumeSlider.addEventListener('touchend', () => {
+                hideVolumeTimeout = setTimeout(() => volumeControl.classList.remove('visible'), 2000);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!volumeControl.contains(e.target) && !musicBtn.contains(e.target)) {
+                    volumeControl.classList.remove('visible');
+                    clearTimeout(hideVolumeTimeout);
+                }
+            });
+
+            music.addEventListener('loadeddata', () => console.log('Audio data loaded'));
+            music.addEventListener('error', (e) => console.error('Audio error:', e.message));
+            music.addEventListener('play', () => console.log('Music play event'));
+            music.addEventListener('pause', () => console.log('Music pause event'));
+        };
+    </script>
+</body>
+</html>
