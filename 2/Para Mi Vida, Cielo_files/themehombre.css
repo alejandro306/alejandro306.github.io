@@ -1,0 +1,1340 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+}
+
+* p {
+    font-size: 1.3em;
+}
+
+.main-container {
+    position: relative;
+    padding: 60px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 0 auto;
+}
+
+html, body {
+    height: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Ocultar barra de scroll en todos los navegadores */
+html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer/Edge */
+}
+
+html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera, Edge */
+}
+
+body {
+    background: #000000;
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.parallax-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: url('https://images.unsplash.com/photo-1465101162946-4377e57745c3') no-repeat center/cover;
+    z-index: -2;
+    opacity: 0.4;
+    filter: brightness(0.6) saturate(1.2);
+    animation: cosmicPulse 14s ease-in-out infinite;
+}
+
+.overlay-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(20, 0, 0, 0.85), rgba(0, 0, 0, 0.95));
+    z-index: -1;
+}
+
+/* ===== LLUVIA GLOBAL DE CORAZONES Y ZANAHORIAS (FONDO) ===== */
+.global-rain-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ===== TÍTULO PRINCIPAL ===== */
+h1.title {
+    font-size: 4.5em;
+    text-align: center;
+    margin: 0 auto 40px;
+    width: 100%;
+    max-width: 1200px;
+    font-family: 'Tangerine', cursive;
+    background: linear-gradient(to right, #FF0000, #FF4444, #FF0000);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.6));
+    animation: glowTitle 2.5s ease-in-out infinite;
+    line-height: 1.3;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Contenedores principales con glass-effect rojo-negro */
+.container, .intro, .quote-section, .memory-section, .future-plans, .love-meter, .end-message {
+    max-width: 1100px;
+    width: 90%;
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(30, 0, 0, 0.7), rgba(0, 0, 0, 0.85));
+    backdrop-filter: blur(14px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    box-shadow: 0 12px 35px rgba(255, 0, 0, 0.15);
+    animation: fadeIn 1.5s ease-out;
+}
+
+.time-since-birth {
+    text-align: center;
+    margin: 40px 0;
+    background: linear-gradient(135deg, rgba(30, 0, 0, 0.7), rgba(0, 0, 0, 0.85));
+    backdrop-filter: blur(15px);
+    padding: 15px;
+    border-radius: 30px;
+    box-shadow: 0 12px 35px rgba(255, 0, 0, 0.2);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    animation: fadeInUp 1s ease-out;
+}
+
+.section-title {
+    font-size: 3em;
+    background: linear-gradient(to right, #FF0000, #CC0000, #8B0000);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: none;
+    font-family: 'Playfair Display', serif;
+}
+
+.intro {
+    font-size: 1.4em;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    text-align: center;
+}
+
+.quote-section {
+    max-width: 700px;
+    margin: 30px auto;
+    font-size: 1.7em;
+    font-style: italic;
+    padding: 25px;
+    border-left: 5px solid #FF0000;
+    animation: slideInLeft 1.5s ease-out;
+}
+
+/* Botón corazón rojo */
+.heart-btn {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: none;
+    cursor: pointer;
+    margin: 40px auto;
+    background: none;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: heartPulse 2s ease-in-out infinite;
+    z-index: 1;
+}
+
+.heart-btn::before {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #FF0000, #8B0000);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path fill="white" d="M23.6,0c-2.9,0-5.4,1.6-6.6,4C15.8,1.6,13.3,0,10.4,0C4.7,0,0,4.7,0,10.4c0,9.6,16,19.2,16,19.2s16-9.6,16-19.2C32,4.7,27.3,0,23.6,0z"/></svg>');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    -webkit-mask-position: center;
+    mask-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path fill="white" d="M23.6,0c-2.9,0-5.4,1.6-6.6,4C15.8,1.6,13.3,0,10.4,0C4.7,0,0,4.7,0,10.4c0,9.6,16,19.2,16,19.2s16-9.6,16-19.2C32,4.7,27.3,0,23.6,0z"/></svg>');
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.heart-btn span {
+    position: relative;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5em;
+    color: #fff;
+    z-index: 2;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+.heart-btn:hover {
+    transform: scale(1.1);
+}
+
+@keyframes heartPulse {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.memory-section {
+    margin: 60px auto;
+    width: 70%;
+}
+
+.memory-item {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.memory-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3);
+}
+
+.memory-item h3 {
+    font-size: 2.1em;
+    background: linear-gradient(to right, #FF4444, #FF0000);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-bottom: 15px;
+    font-family: 'Roboto Slab', serif;
+}
+
+.memory-item .date {
+    font-size: 1.3em;
+    color: #cc8888;
+    margin-bottom: 15px;
+}
+
+.time-title {
+    font-size: 2.9em;
+    background: linear-gradient(to right, #FF4444, #FF0000);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-shadow: none;
+    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+}
+
+.time-display {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.45em;
+    color: #FF4444;
+    font-weight: 700;
+    padding: 15px 25px;
+    border-radius: 12px;
+    display: inline-block;
+    letter-spacing: 8px;
+    text-shadow: 0 0 20px #FF0000, 0 0 30px #FF0000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.time-label {
+    font-size: 1.3em;
+    color: #e6e6e6;
+    margin-top: 5px;
+}
+
+.personalized-message {
+    font-size: 1.5em;
+    color: #e6e6e6;
+    margin-top: 15px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.future-plans {
+    margin: 60px auto;
+}
+
+.future-plans h2 {
+    font-size: 2.8em;
+    background: linear-gradient(to right, #FF4444, #FF0000);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* ===== LOVE METER CON LLUVIA DE CORAZONES Y ZANAHORIAS ===== */
+.love-meter {
+    max-width: 650px;
+    margin: 20px auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.love-meter.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.love-meter h2 {
+    font-size: 3em;
+    animation: pulse 1s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+.meter-container {
+    width: 100%;
+    height: 30px;
+    background: rgba(255, 0, 0, 0.15);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #FF0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.meter-fill {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(to right, #8B0000, #FF0000, #FF4444);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.meter-fill.active {
+    width: 100%;
+    animation: fillMeter 2s ease-in-out forwards;
+}
+
+.meter-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shine 2s infinite;
+}
+
+.meter-text {
+    font-size: 2em;
+    color: #f0f0f0;
+    margin-top: 20px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    animation: textGlow 2s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+/* Contenedor de la lluvia del love-meter */
+.hearts-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Partículas de corazones y zanahorias (para ambas lluvias) */
+.rain-particle {
+    position: absolute;
+    top: -30px;
+    font-size: 1.5em;
+    animation: rainFall linear infinite;
+    opacity: 0.9;
+}
+
+@keyframes rainFall {
+    0% {
+        transform: translateY(-30px) rotate(0deg);
+        opacity: 1;
+    }
+    70% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(500px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+@keyframes fillMeter {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes shine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+}
+
+@keyframes textGlow {
+    0%, 100% { text-shadow: 0 0 5px rgba(255, 0, 0, 0.3); }
+    50% { text-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4); }
+}
+
+.end-message {
+    margin: 60px auto;
+    font-size: 1.6em;
+    text-align: center;
+}
+
+.signature {
+    font-size: 3.4em;
+    background: linear-gradient(to right, #FF0000, #FF4444, #FF0000);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin-top: 30px;
+    text-align: center;
+    font-family: 'Tangerine', cursive;
+}
+
+.letter-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.letter-card {
+    background: #1a0000;
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 750px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+    position: relative;
+    border: 2px solid #FF0000;
+    color: #f0f0f0;
+    animation: slideIn 0.5s ease-out;
+}
+
+.letter-card h2 {
+    margin: 0 0 20px 0;
+    font-size: 50px;
+    background: linear-gradient(to right, #FF0000, #FF4444);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-align: center;
+    font-family: 'Great Vibes', cursive;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255, 0, 0, 0.4);
+    padding-bottom: 10px;
+}
+
+.letter-card .close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #cc8888;
+    transition: color 0.2s;
+}
+
+.letter-card .close:hover {
+    color: #FF0000;
+}
+
+.typewriter-container {
+    font-size: 16px;
+    line-height: 1.8;
+    font-family: 'Playfair Display', serif;
+    color: #f0f0f0;
+    width: 100%;
+}
+
+.line {
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.line.active {
+    height: auto;
+    opacity: 1;
+    min-height: 28px;
+    font-family: 'Playfair Display', serif;
+}
+
+.cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background-color: #FF0000;
+    animation: blink 0.7s infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.music-btn {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #FF0000, #8B0000);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.6);
+}
+
+.music-btn:active {
+    transform: scale(0.95);
+}
+
+.music-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+.volume-control {
+    width: 120px;
+    background: rgba(20, 0, 0, 0.85);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+    border: 1px solid rgba(255, 0, 0, 0.5);
+    margin-top: 10px;
+    display: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.volume-control.visible {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.volume-control input {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 0, 0, 0.3);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.volume-control input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #FF0000;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(255, 0, 0, 0.5);
+}
+
+.volume-control input::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #FF0000;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(255, 0, 0, 0.5);
+    border: none;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(0, 0, 0, 0.9);
+    margin-top: 5px;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+.footer p {
+    font-size: 1em;
+    color: #f4f4f4;
+    margin: 0 0 10px 0;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+}
+
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #FF0000;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.divider {
+    width: 80%;
+    height: 4px;
+    background: linear-gradient(to right, #8B0000, #FF0000, #8B0000);
+    margin: 45px auto;
+    border-radius: 2px;
+}
+
+.highlight {
+    background: linear-gradient(to right, #FF0000, #FF4444);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    font-weight: bold;
+}
+
+.animated-text {
+    display: inline-block;
+    animation: bounceIn 1s ease-out;
+}
+
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.fade-in-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== REPRODUCTOR DE MÚSICA CON LETRA ===== */
+.music-player {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    text-align: center;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0 30px 0;
+    padding: 20px;
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8em;
+    background: linear-gradient(135deg, #FF0000, #8B0000);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+}
+
+.time-display {
+    font-size: 0.9em;
+    color: #ff8888;
+    min-width: 40px;
+    text-align: center;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 0, 0, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-fill {
+    width: 0;
+    height: 100%;
+    background: linear-gradient(to right, #FF0000, #FF4444);
+    border-radius: 4px;
+    transition: width 0.1s linear;
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.2em;
+}
+
+.volume-slider {
+    width: 80px;
+    height: 6px;
+    -webkit-appearance: none;
+    background: rgba(255, 0, 0, 0.3);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #FF0000;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(255, 0, 0, 0.5);
+}
+
+/* Contenedor de la letra */
+.lyrics-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Scrollbar de la letra */
+.lyrics-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.lyrics-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+.lyrics-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 0, 0.5);
+    border-radius: 3px;
+}
+
+/* Cada línea de la letra */
+.lyric-line {
+    padding: 12px 20px;
+    margin: 5px 0;
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.4);
+    transition: all 0.5s ease;
+    border-radius: 10px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+}
+
+/* Línea activa (la que está sonando) */
+.lyric-line.active {
+    color: #fff;
+    font-size: 1.5em;
+    background: rgba(255, 0, 0, 0.2);
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+    font-weight: bold;
+    transform: scale(1.05);
+}
+
+/* Línea pasada */
+.lyric-line.passed {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+        .key {
+            width: 60px;
+            height: 60px;
+            font-size: 1.8em;
+            color: #fff;
+            background: linear-gradient(135deg, #4FC3F7, #0288D1);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            font-family: 'Oswald', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .enter-key {
+            grid-column: span 3;
+            width: auto;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #81D4FA, #0288D1);
+            font-size: 1.5em;
+            font-family: 'Roboto Slab', serif;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+        }
+
+        .imagen {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .album-section {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .album-item {
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .album-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .album-image {
+            width: 100%;
+            height: 280px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .album-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .album-item:hover .album-image img {
+            transform: scale(1.1);
+        }
+        
+        .album-caption {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            margin: 10px 0 5px 0;
+            font-style: italic;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .album-image video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .album-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .album-image {
+                height: 300px;
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .album-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .player-controls {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .progress-container {
+        max-width: 100%;
+    }
+    
+    .lyric-line {
+        font-size: 1em;
+    }
+    
+    .lyric-line.active {
+        font-size: 1.2em;
+    }
+}
+
+@keyframes glowTitle {
+    0%, 100% { filter: drop-shadow(0 0 10px #FF0000) drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)); }
+    50% { filter: drop-shadow(0 0 20px #FF0000) drop-shadow(0 0 30px rgba(255, 0, 0, 0.7)); }
+}
+
+@keyframes cosmicPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 800px) {
+    h1.title {
+        font-size: 2.8em;
+        margin-bottom: 25px;
+        line-height: 1.2;
+    }
+
+    .container {
+        max-width: 1200px;
+        min-height: 480px;
+        padding: 35px;
+    }
+
+    .intro {
+        font-size: 0.9em;
+        margin-bottom: 30px;
+        width: 96%;
+    }
+
+    .quote-section {
+        font-size: 1.1em;
+        margin: 15px auto;
+        padding: 20px;
+    }
+
+    .carousel {
+        max-width: 900px;
+    }
+
+    .footer {
+        padding: 25px;
+    }
+
+    .footer p {
+        font-size: 1.4em;
+    }
+
+    h1.title {
+        margin: 30px auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        text-align: center;
+    }
+
+    .container, .intro, .quote-section, .memory-section, .future-plans, .love-meter, .end-message {
+        padding: 15px;
+        max-width: 800px;
+    }
+
+    .carousel-btn {
+        font-size: 0.9em;
+        padding: 8px 14px;
+    }
+
+    .prev-btn {
+        left: 10px;
+    }
+
+    .next-btn {
+        right: 10px;
+    }
+
+    .heart-btn span {
+        font-size: 1.2em;
+    }
+
+    .memory-section {
+        width: 92%;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .memory-item {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .memory-item h3 {
+        font-size: 1.5em;
+    }
+
+    .memory-item .date {
+        font-size: 1em;
+    }
+
+    .memory-item p {
+        font-size: 0.9em;
+    }
+
+    .time-since-birth {
+        margin: 15px 0;
+        padding: 20px;
+    }
+
+    .time-title {
+        font-size: 2em;
+    }
+
+    * p {
+        font-size: 1em;
+    }
+
+    .time-display {
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
+        text-align: center;
+        font-size: clamp(1rem, 5.4vw, 1.5em);
+        padding: 10px 15px;
+        transform-origin: center;
+        box-sizing: border-box;
+        letter-spacing: 0.2em;
+    }
+
+    .time-label {
+        font-size: 1em;
+    }
+
+    .personalized-message {
+        font-size: 1.2em;
+    }
+
+    .future-plans {
+        margin: 30px auto;
+        padding: 20px;
+    }
+
+    .future-plans h2 {
+        font-size: 2em;
+    }
+
+    .love-meter {
+        margin: 20px auto;
+        padding: 20px;
+        width: 70%;
+    }
+
+    .love-meter h2 {
+        font-size: 2em;
+    }
+
+    .meter-container {
+        height: 25px;
+    }
+
+    .meter-text {
+        font-size: 1.4em;
+    }
+
+    .end-message {
+        margin: 30px auto;
+        padding: 20px;
+        font-size: 1.15em;
+    }
+
+    .signature {
+        font-size: 3.3em;
+    }
+
+    .letter-card {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .letter-card h2 {
+        font-size: 2em;
+    }
+
+    .typewriter-container {
+        font-size: 14px;
+    }
+
+    .music-control {
+        right: 15px;
+    }
+
+    .music-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .line {
+        line-height: 1.45;
+    }
+
+    .music-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .volume-control {
+        width: 100px;
+        margin-top: 8px;
+    }
+
+    .volume-control input {
+        height: 10px;
+    }
+
+    .volume-control input::-webkit-slider-thumb,
+    .volume-control input::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+    }
+
+    .footer {
+        padding: 15px;
+    }
+
+    .footer p {
+        font-size: 0.8em;
+    }
+
+    .main-container {
+        padding: 40px 15px;
+    }
+
+    .divider {
+        margin: 15px auto;
+    }
+
+    .heart-btn {
+        width: 70px;
+        height: 70px;
+        margin: 15px auto;
+    }
+
+    .heart-btn::before {
+        width: 95px;
+        height: 95px;
+    }
+
+    .section-title {
+        font-size: 2em;
+    }
+
+    .intro, .quote-section, .memory-section, .future-plans, .love-meter, .end-message {
+        margin: 30px auto;
+        padding: 20px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+}
+
+@media (max-width: 768px) and (min-aspect-ratio: 16/9) {
+    .main-container {
+        padding: 40px 15px;
+    }
+
+    .carousel {
+        max-width: 650px;
+        margin: 30px auto;
+    }
+
+    h1.title {
+        font-size: 2.2em;
+        margin-bottom: 20px;
+    }
+
+    .time-display {
+        font-size: 1.5em;
+        padding: 8px 12px;
+        transform: scale(0.85);
+    }
+
+    .intro, .quote-section, .memory-section, .future-plans, .love-meter, .end-message {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .heart-btn {
+        width: 160px;
+        height: 45px;
+    }
+
+    .heart-btn span {
+        font-size: 1em;
+    }
+
+    .letter-card {
+        padding: 15px;
+    }
+
+    .letter-card h2 {
+        font-size: 1.8em;
+    }
+
+    .typewriter-container {
+        font-size: 13px;
+    }
+
+    .time-since-birth {
+        padding: 15px;
+    }
+
+    .footer {
+        padding: 15px;
+    }
+
+    .footer p {
+        font-size: 1em;
+    }
+}

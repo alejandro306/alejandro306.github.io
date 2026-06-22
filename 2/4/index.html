@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Dia de la Novia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            overflow: hidden;
+            background-color: #000000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px;
+        }
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px rgba(255, 182, 193, 0.9), 0 0 30px rgba(255, 105, 180, 0.6);
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .btn-audio {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #ff4a5a;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            pointer-events: auto;
+            box-shadow: 0 0 15px rgba(255, 74, 90, 0.6);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-audio:hover { 
+            transform: scale(1.1); 
+            box-shadow: 0 0 25px rgba(255, 74, 90, 0.9);
+        }
+        .btn-audio svg { fill: white; width: 24px; height: 24px; }
+        
+        .instruction {
+            position: absolute;
+            bottom: 20px;
+            color: rgba(255,255,255,0.35);
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            animation: pulseText 2s infinite alternate;
+        }
+
+        @keyframes pulseText {
+            from { opacity: 0.3; }
+            to { opacity: 0.7; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div class="ui-layer">
+        <h1 id="main-title">Feliz Dia de la Novia</h1>
+        
+        <div class="btn-audio" onclick="toggleAudio()">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+
+        
+    </div>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="music/Daniel, Me Estás Matando - Sólo Tú [Letra].mp3" type="audio/mpeg">
+    </audio>
+
+    <script>        
+        // CORRECCIÓN: Ajustamos '1jpg.jpg' por si acaso a '1.jpg'
+        const fotosNovia = [
+            'img/1.jpg', 
+            'img/2.jpg',
+            'img/3.jpg',
+            'img/4.jpg',
+            'img/5.jpg',
+            'img/IMG-20250518-WA0012.jpg'            
+        ];
+
+        console.log('Cargando ' + fotosNovia.length + ' fotos...');
+
+        // --- CONFIGURACIÓN BASE ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.004);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, -25, 85);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxDistance = 140;
+        controls.minDistance = 40;
+
+        // --- GENERADOR DE TEXTURAS ---
+        function createGlowTexture(r, g, b) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64; canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            grad.addColorStop(0, 'rgba(255,255,255,1)');
+            grad.addColorStop(0.15, 'rgba(' + r + ',' + g + ',' + b + ',1)');
+            grad.addColorStop(0.4, 'rgba(' + r + ',0,80,0.25)');
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, 64, 64);
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        const redGlow = createGlowTexture(255, 40, 70);
+        const sparkGlow = createGlowTexture(255, 150, 180);
+
+        // --- FONDO GALAXIA ---
+        const galaxyGeometry = new THREE.BufferGeometry();
+        const galaxyStarsCount = 4000;
+        const galaxyPositions = new Float32Array(galaxyStarsCount * 3);
+
+        for (let i = 0; i < galaxyStarsCount; i++) {
+            const r = Math.pow(Math.random(), 2.3) * 350; 
+            const brazos = (i % 2 === 0) ? 0 : Math.PI; 
+            const theta = r * 0.038 + brazos + (Math.random() - 0.5) * 0.35; 
+            const y = (Math.random() - 0.5) * (35 - r * 0.06); 
+
+            galaxyPositions[i * 3] = Math.cos(theta) * r;
+            galaxyPositions[i * 3 + 1] = y - 10; 
+            galaxyPositions[i * 3 + 2] = Math.sin(theta) * r;
+        }
+        galaxyGeometry.setAttribute('position', new THREE.BufferAttribute(galaxyPositions, 3));
+        const galaxyMaterial = new THREE.PointsMaterial({ color: 0xffeef5, size: 0.55, transparent: true, opacity: 0.65 });
+        const galaxyField = new THREE.Points(galaxyGeometry, galaxyMaterial);
+        scene.add(galaxyField);
+
+        // --- CORAZÓN ---
+        const heartGeometry = new THREE.BufferGeometry();
+        const pCount = 22000; 
+        const positions = new Float32Array(pCount * 3);
+        const originalPositions = new Float32Array(pCount * 3);
+
+        for (let i = 0; i < pCount; i++) {
+            const t = Math.PI * (Math.random() * 2 - 1);
+            const phi = Math.PI * (Math.random() * 2 - 1);
+            const r = 0.55 + Math.pow(Math.random(), 2) * 0.45; 
+
+            let x = 16 * Math.pow(Math.sin(t), 3);
+            let y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+            let z = 5 * Math.cos(phi) * Math.sin(t);
+
+            const factorEscala = 1.65;
+            positions[i * 3] = x * factorEscala * r;
+            positions[i * 3 + 1] = y * factorEscala * r;
+            positions[i * 3 + 2] = z * factorEscala * r;
+
+            originalPositions[i * 3] = positions[i * 3];
+            originalPositions[i * 3 + 1] = positions[i * 3 + 1];
+            originalPositions[i * 3 + 2] = positions[i * 3 + 2];
+        }
+
+        heartGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const heartMaterial = new THREE.PointsMaterial({
+            size: 1.2,
+            map: redGlow,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            transparent: true,
+            opacity: 0.95
+        });
+        const heartPoints = new THREE.Points(heartGeometry, heartMaterial);
+        heartPoints.position.y = 10;
+        scene.add(heartPoints);
+
+        // --- ANILLOS DE TEXTO ---
+        const orbitsGroup = new THREE.Group();
+        scene.add(orbitsGroup);
+
+        function createTextTexture(text) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512; canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0,0,512,64);
+            ctx.font = 'bold 26px sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(255,182,193,0.8)';
+            ctx.shadowBlur = 10;
+            ctx.fillText(text, 256, 42);
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        const textPlaneGeo = new THREE.PlaneGeometry(32, 4.2);
+        const textMat = new THREE.MeshBasicMaterial({
+            map: createTextTexture("Feliz Dia de la Novia"),
+            transparent: true,
+            side: THREE.DoubleSide,
+            depthWrite: false
+        });
+
+        const numAnillos = 3;
+        for (let r = 0; r < numAnillos; r++) {
+            const ringGroup = new THREE.Group();
+            const radius = 35 + (r * 10); 
+            const textsInRing = 6;
+
+            for(let i = 0; i < textsInRing; i++) {
+                const angle = (i / textsInRing) * Math.PI * 2;
+                const mesh = new THREE.Mesh(textPlaneGeo, textMat);
+                mesh.position.x = Math.cos(angle) * radius;
+                mesh.position.z = Math.sin(angle) * radius;
+                mesh.position.y = -16 - (r * 4.5);
+                mesh.lookAt(0, mesh.position.y, 0);
+                mesh.rotation.y += Math.PI;
+                
+                mesh.userData = { baseId: i, baseY: mesh.position.y, angle: angle };
+                ringGroup.add(mesh);
+            }
+            
+            if(r === 0) ringGroup.rotation.x = 0.1;
+            if(r === 1) ringGroup.rotation.z = -0.1;
+            if(r === 2) ringGroup.rotation.x = -0.06;
+
+            ringGroup.userData = { speed: 0.12 + (r * 0.05) }; 
+            orbitsGroup.add(ringGroup);
+        }
+
+        // --- GALERÍA DE FOTOS (CORREGIDA) ---
+        const photoGroup = new THREE.Group();
+        scene.add(photoGroup);
+        
+        const textureLoader = new THREE.TextureLoader();
+        // CORRECCIÓN AUXILIAR: Permite que cargue correctamente en servidores remotos sin problemas de CORS
+        textureLoader.crossOrigin = 'anonymous'; 
+
+        const photoGeo = new THREE.PlaneGeometry(8.5, 11.5);
+        const listaMeshesFotos = [];
+
+        fotosNovia.forEach(function(url, index) {
+            const mat = new THREE.MeshBasicMaterial({ 
+                color: 0xff2d55,
+                side: THREE.DoubleSide 
+            });
+            const mesh = new THREE.Mesh(photoGeo, mat);
+            
+            const angle = (index / fotosNovia.length) * Math.PI * 2;
+            const radiusPhotos = 23; 
+            const heightY = -18 + (index * 4.0); 
+
+            mesh.position.set(Math.cos(angle) * radiusPhotos, heightY, Math.sin(angle) * radiusPhotos);
+            mesh.lookAt(0, heightY, 0);
+            mesh.rotation.y += Math.PI;
+            
+            mesh.userData = {
+                baseX: mesh.position.x,
+                baseY: heightY,
+                baseZ: mesh.position.z,
+                angle: angle,
+                phase: index * 1.2,
+                targetScale: 1.0
+            };
+            
+            photoGroup.add(mesh);
+            listaMeshesFotos.push(mesh);
+            
+            textureLoader.load(
+                url,
+                function(texture) {
+                    mat.map = texture;
+                    mat.color.set(0xffffff);
+                    mat.needsUpdate = true;
+                    console.log('✓ Imagen cargada: ' + url);
+                },
+                undefined,
+                function(err) {
+                    console.log('✗ Error cargando: ' + url + ' - Verifica si el archivo está en la misma carpeta o usa un Servidor Local.');
+                    mat.color.set(0x331111);
+                    mat.needsUpdate = true;
+                }
+            );
+        });
+
+        // --- SISTEMA DE PARTÍCULAS ---
+        const maxExplosiones = 12;
+        const particulasPorClick = 30;
+        const listaExplosiones = [];
+
+        for (let e = 0; e < maxExplosiones; e++) {
+            const geo = new THREE.BufferGeometry();
+            const posArr = new Float32Array(particulasPorClick * 3);
+            const velArr = new Float32Array(particulasPorClick * 3);
+            const seedArr = new Float32Array(particulasPorClick);
+            
+            geo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+            
+            const mat = new THREE.PointsMaterial({
+                size: 2.0,
+                map: sparkGlow,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 1.0,
+                depthWrite: false
+            });
+            
+            const mesh = new THREE.Points(geo, mat);
+            mesh.visible = false;
+            scene.add(mesh);
+            
+            for (let s = 0; s < particulasPorClick; s++) {
+                seedArr[s] = Math.random() * 100;
+            }
+            
+            listaExplosiones.push({
+                mesh: mesh,
+                seeds: seedArr,
+                velocidades: velArr,
+                vida: 0,
+                posIniciales: new Float32Array(particulasPorClick * 3)
+            });
+        }
+
+        let indiceExplosionPool = 0;
+        let iluminacionCorazonTimer = 0;
+        const centroCorazon = new THREE.Vector3(0, 10, 0);
+
+        // --- CLICK ---
+        window.addEventListener('pointerdown', function(e) {
+            if (e.target.closest('.btn-audio')) return;
+
+            iluminacionCorazonTimer = 1.0;
+
+            const mouse = new THREE.Vector2(
+                (e.clientX / window.innerWidth) * 2 - 1,
+                -(e.clientY / window.innerHeight) * 2 + 1
+            );
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            const targetPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 15);
+            const puntoInters = new THREE.Vector3();
+            raycaster.ray.intersectPlane(targetPlane, puntoInters);
+
+            const explosion = listaExplosiones[indiceExplosionPool];
+            explosion.vida = 1.0;
+            explosion.mesh.material.opacity = 1.0;
+            explosion.mesh.material.size = 2.0;
+            explosion.mesh.visible = true;
+
+            const posAttr = explosion.mesh.geometry.attributes.position;
+            const velArr = explosion.velocidades;
+            const posIni = explosion.posIniciales;
+
+            for (let p = 0; p < particulasPorClick; p++) {
+                const rDis = 2 + Math.random() * 4;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
+
+                const px = puntoInters.x + Math.sin(phi) * Math.cos(theta) * rDis;
+                const py = puntoInters.y + Math.sin(phi) * Math.sin(theta) * rDis;
+                const pz = puntoInters.z + Math.cos(phi) * rDis;
+
+                posAttr.array[p * 3] = px;
+                posAttr.array[p * 3 + 1] = py;
+                posAttr.array[p * 3 + 2] = pz;
+
+                posIni[p * 3] = px;
+                posIni[p * 3 + 1] = py;
+                posIni[p * 3 + 2] = pz;
+
+                const dirX = centroCorazon.x - px;
+                const dirY = centroCorazon.y - py;
+                const dirZ = centroCorazon.z - pz;
+                const dist = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+                
+                const speedBase = 15 + Math.random() * 20;
+                const randomOffset = 0.3 + Math.random() * 0.7;
+                
+                velArr[p * 3] = (dirX / dist) * speedBase * randomOffset + (Math.random() - 0.5) * 8;
+                velArr[p * 3 + 1] = (dirY / dist) * speedBase * randomOffset + (Math.random() - 0.5) * 8;
+                velArr[p * 3 + 2] = (dirZ / dist) * speedBase * randomOffset + (Math.random() - 0.5) * 8;
+            }
+            posAttr.needsUpdate = true;
+
+            indiceExplosionPool = (indiceExplosionPool + 1) % maxExplosiones;
+        });
+
+        // --- HOVER ---
+        const raycasterHover = new THREE.Raycaster();
+        const mouseCoords = new THREE.Vector2();
+
+        window.addEventListener('pointermove', function(e) {
+            mouseCoords.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseCoords.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // --- LOOP PRINCIPAL ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+            const delta = Math.min(clock.getDelta(), 0.1);
+
+            galaxyField.rotation.y = time * 0.004;
+            galaxyField.position.y = Math.sin(time * 0.5) * 1.5;
+
+            photoGroup.rotation.y = time * 0.08;
+            heartPoints.rotation.y = time * 0.14;
+
+            orbitsGroup.children.forEach(function(ring) {
+                ring.rotation.y = time * ring.userData.speed;
+                ring.children.forEach(function(textMesh) {
+                    textMesh.position.y = textMesh.userData.baseY + Math.sin(time * 1.5 + textMesh.userData.angle) * 1.2;
+                });
+            });
+
+            raycasterHover.setFromCamera(mouseCoords, camera);
+            const intersections = raycasterHover.intersectObjects(listaMeshesFotos);
+
+            listaMeshesFotos.forEach(function(mesh) {
+                mesh.userData.targetScale = 1.0;
+            });
+
+            if (intersections.length > 0) {
+                intersections[0].object.userData.targetScale = 1.25;
+                intersections[0].object.lookAt(camera.position);
+            }
+
+            listaMeshesFotos.forEach(function(mesh) {
+                const data = mesh.userData;
+                mesh.position.y = data.baseY + Math.sin(time * 1.5 + data.phase) * 1.0;
+                const s = THREE.MathUtils.lerp(mesh.scale.x, data.targetScale, 0.08);
+                mesh.scale.set(s, s, s);
+
+                if (data.targetScale === 1.0) {
+                    mesh.lookAt(0, mesh.position.y, 0);
+                    mesh.rotation.y += Math.PI;
+                }
+            });
+
+            let basePulse = 1.0 + Math.sin(time * 3.2) * 0.04;
+            if (Math.sin(time * 3.2) > 0.65) {
+                basePulse += Math.sin(time * 6.4) * 0.015;
+            }
+
+            if (iluminacionCorazonTimer > 0) {
+                iluminacionCorazonTimer -= delta * 1.3;
+                const easeOutGlow = Math.pow(iluminacionCorazonTimer, 2);
+                const destelloClick = 1.0 + (0.28 * easeOutGlow);
+
+                heartPoints.scale.set(basePulse * destelloClick, basePulse * destelloClick, basePulse * destelloClick);
+                heartMaterial.size = 1.2 + (2.5 * easeOutGlow);
+                heartMaterial.opacity = 0.95 + (0.05 * easeOutGlow);
+            } else {
+                heartPoints.scale.set(basePulse, basePulse, basePulse);
+                heartMaterial.size = 1.2;
+                heartMaterial.opacity = 0.95;
+            }
+
+            const heartPosAttr = heartGeometry.attributes.position;
+            for (let i = 0; i < pCount; i++) {
+                let ix = i * 3;
+                let iy = i * 3 + 1;
+                let iz = i * 3 + 2;
+                heartPosAttr.array[ix] = originalPositions[ix] + Math.sin(time * 3.8 + originalPositions[iy] * 0.5) * 0.25;
+                heartPosAttr.array[iy] = originalPositions[iy] + Math.cos(time * 3.2 + originalPositions[ix] * 0.5) * 0.25;
+                heartPosAttr.array[iz] = originalPositions[iz] + Math.sin(time * 2.2 + originalPositions[ix] * 0.5) * 0.25;
+            }
+            heartPosAttr.needsUpdate = true;
+
+            listaExplosiones.forEach(function(explosion) {
+                if (!explosion.mesh.visible) return;
+
+                explosion.vida -= delta * 0.5;
+
+                const easeVida = Math.max(explosion.vida, 0);
+                explosion.mesh.material.opacity = easeVida * 0.9;
+                explosion.mesh.material.size = 2.0 * (0.3 + 0.7 * easeVida);
+
+                if (explosion.vida <= 0) {
+                    explosion.mesh.visible = false;
+                    return;
+                }
+
+                const posAttr = explosion.mesh.geometry.attributes.position;
+                const velArr = explosion.velocidades;
+
+                for (let p = 0; p < particulasPorClick; p++) {
+                    let idx = p * 3;
+
+                    let pX = posAttr.array[idx];
+                    let pY = posAttr.array[idx + 1];
+                    let pZ = posAttr.array[idx + 2];
+
+                    let dirX = centroCorazon.x - pX;
+                    let dirY = centroCorazon.y - pY;
+                    let dirZ = centroCorazon.z - pZ;
+                    let dist = Math.sqrt(dirX * dirX + dirY * dirY + dirZ * dirZ);
+
+                    if (dist > 0.5) {
+                        const aceleracion = 1.5 + (dist / 30);
+                        
+                        velArr[idx] += (dirX / dist) * aceleracion * delta * 8;
+                        velArr[idx + 1] += (dirY / dist) * aceleracion * delta * 8;
+                        velArr[idx + 2] += (dirZ / dist) * aceleracion * delta * 8;
+
+                        velArr[idx] *= 0.99;
+                        velArr[idx + 1] *= 0.99;
+                        velArr[idx + 2] *= 0.99;
+
+                        const semilla = explosion.seeds[p];
+                        const turbX = Math.sin(time * 3 + semilla * 2) * 0.8;
+                        const turbY = Math.cos(time * 2.5 + semilla * 1.7) * 0.8;
+                        const turbZ = Math.sin(time * 3.5 + semilla * 2.3) * 0.8;
+
+                        posAttr.array[idx] += (velArr[idx] + turbX) * delta;
+                        posAttr.array[idx + 1] += (velArr[idx + 1] + turbY) * delta;
+                        posAttr.array[idx + 2] += (velArr[idx + 2] + turbZ) * delta;
+                    } else {
+                        explosion.vida -= delta * 2;
+                        posAttr.array[idx] = centroCorazon.x + (Math.random() - 0.5) * 0.5;
+                        posAttr.array[idx + 1] = centroCorazon.y + (Math.random() - 0.5) * 0.5;
+                        posAttr.array[idx + 2] = centroCorazon.z + (Math.random() - 0.5) * 0.5;
+                    }
+                }
+                posAttr.needsUpdate = true;
+            });
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // --- RESPONSIVE ---
+        window.addEventListener('resize', function() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function toggleAudio() {
+            const audio = document.getElementById('bg-music');
+            if (audio.paused) {
+                audio.play().catch(function() {
+                    console.log('No se pudo reproducir la música');
+                });
+            } else {
+                audio.pause();
+            }
+        }
+    </script>
+</body>
+</html>
