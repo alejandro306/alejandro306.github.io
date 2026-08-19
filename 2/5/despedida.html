@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una Carta Para Ti 💌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a0a0a, #2d0a0a, #1a0a0a);
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Corazones flotantes */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: floatUp 6s ease-in infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(720deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Contenedor principal */
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* Título */
+        .title {
+            color: #ff6b81;
+            font-size: 1.6rem;
+            text-shadow: 0 0 30px rgba(255, 45, 85, 0.3);
+            letter-spacing: 2px;
+            font-weight: 300;
+            animation: fadeIn 2s ease;
+            text-align: center;
+            line-height: 1.4;
+            padding: 0 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Sobre */
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(145deg, #cc1133, #8B0000);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 
+                0 15px 40px rgba(139, 0, 0, 0.5),
+                0 0 60px rgba(204, 17, 51, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .envelope:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(139, 0, 0, 0.6);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Solapa del sobre */
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #ff2d55;
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        /* Cuerpo del sobre */
+        .body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(180deg, #a0112e, #7a0000);
+            border-radius: 0 0 10px 10px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .body .icon {
+            font-size: 2.8rem;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .body .hint {
+            color: #ffaaaa;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Sello decorativo */
+        .seal {
+            position: absolute;
+            top: 30px;
+            right: 25px;
+            width: 40px;
+            height: 45px;
+            background: #fff;
+            border: 2px solid #cc1133;
+            border-radius: 4px;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        /* Carta mejorada */
+        .letter-content {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            width: 120%;
+            max-width: 800px;
+            min-height: 450px;
+            background: linear-gradient(135deg, #1a0a0a, #0d0000);
+            border: 2px solid #ff2d55;
+            border-radius: 15px;
+            padding: 50px 45px;
+            z-index: 0;
+            opacity: 0;
+            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 30px 60px rgba(255, 45, 85, 0.3),
+                inset 0 0 40px rgba(255, 45, 85, 0.05);
+            max-height: 80vh;
+            overflow-y: auto;
+            pointer-events: auto;
+        }
+
+        .envelope.open .letter-content {
+            opacity: 1;
+            z-index: 5;
+            transform: translateX(-50%) translateY(-100px);
+        }
+
+        .letter-content h2 {
+            color: #ff2d55;
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(255, 45, 85, 0.4);
+            letter-spacing: 2px;
+        }
+
+        .letter-content p {
+            color: #e8d5d5;
+            font-size: 1.15rem;
+            line-height: 2;
+            margin-bottom: 22px;
+            text-align: justify;
+            padding: 0 10px;
+        }
+
+        .letter-content .decor {
+            text-align: center;
+            font-size: 1.8rem;
+            letter-spacing: 12px;
+            margin: 25px 0;
+        }
+
+        .letter-content .sign {
+            text-align: right;
+            color: #ff2d55;
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-top: 30px;
+            text-shadow: 0 0 25px rgba(255, 45, 85, 0.3);
+            padding-right: 15px;
+        }
+
+        /* Estilo para los enlaces de canciones */
+        .song-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 15px 20px;
+            background: rgba(255, 45, 85, 0.05);
+            border-radius: 10px;
+            border-left: 3px solid #ff2d55;
+            margin: 15px 10px;
+        }
+
+        .song-links a {
+            color: #ff6b81;
+            text-decoration: none;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            padding: 3px 0;
+            border-bottom: 1px solid transparent;
+        }
+
+        .song-links a:hover {
+            color: #ff2d55;
+            border-bottom-color: #ff2d55;
+            padding-left: 8px;
+        }
+
+        .song-links .label {
+            color: #ff6b81;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        /* Botón cerrar */
+        .close-btn {
+            position: sticky;
+            top: 5px;
+            float: right;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 45, 85, 0.15);
+            border: 2px solid #ff2d55;
+            color: #ff2d55;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            margin-bottom: 15px;
+        }
+
+        .close-btn:hover {
+            background: #ff2d55;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(255, 45, 85, 0.5);
+            transform: scale(1.1);
+        }
+
+        /* Scrollbar */
+        .letter-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+        }
+        .letter-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 45, 85, 0.4);
+            border-radius: 3px;
+        }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .letter-content {
+                width: 100%;
+                max-width: 650px;
+                padding: 40px 35px;
+            }
+            .letter-content h2 {
+                font-size: 2rem;
+            }
+            .letter-content p {
+                font-size: 1.05rem;
+                line-height: 1.9;
+            }
+            .title {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .letter-content {
+                padding: 30px 25px;
+                max-width: 95%;
+                min-height: 300px;
+                top: -50px;
+            }
+            .letter-content h2 {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+            .letter-content p {
+                font-size: 0.95rem;
+                line-height: 1.8;
+                padding: 0 5px;
+            }
+            .letter-content .decor {
+                font-size: 1.4rem;
+                letter-spacing: 8px;
+            }
+            .letter-content .sign {
+                font-size: 1.2rem;
+            }
+            .envelope.open .letter-content {
+                transform: translateX(-50%) translateY(-80px);
+            }
+            .song-links {
+                padding: 12px 15px;
+            }
+            .song-links a {
+                font-size: 0.9rem;
+            }
+            .title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .envelope {
+                width: 250px;
+                height: 170px;
+            }
+            .flap {
+                border-left-width: 125px;
+                border-right-width: 125px;
+                border-top-width: 85px;
+            }
+            .letter-content {
+                padding: 25px 18px;
+                min-height: 250px;
+                top: -40px;
+            }
+            .letter-content h2 {
+                font-size: 1.3rem;
+                margin-bottom: 15px;
+            }
+            .letter-content p {
+                font-size: 0.88rem;
+                line-height: 1.7;
+                margin-bottom: 15px;
+            }
+            .letter-content .decor {
+                font-size: 1.2rem;
+                letter-spacing: 6px;
+                margin: 15px 0;
+            }
+            .letter-content .sign {
+                font-size: 1rem;
+                margin-top: 20px;
+            }
+            .title {
+                font-size: 1rem;
+            }
+            .seal {
+                width: 32px;
+                height: 36px;
+                font-size: 1.1rem;
+                top: 20px;
+                right: 18px;
+            }
+            .envelope.open .letter-content {
+                transform: translateX(-50%) translateY(-65px);
+            }
+            .song-links {
+                padding: 10px 12px;
+                margin: 10px 5px;
+            }
+            .song-links a {
+                font-size: 0.82rem;
+            }
+            .song-links .label {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Corazones flotantes -->
+    <div class="floating-hearts" id="hearts"></div>
+
+    <!-- Contenedor -->
+    <div class="container">
+        <div class="title">💔 No pude salvar lo nuestro, así que aquí va esta carta donde expresaré todo 💔</div>
+
+        <div class="envelope" id="envelope">
+            <div class="flap"></div>
+            <div class="seal">❤️</div>
+            <div class="body">
+                <span class="icon">💌</span>
+                <span class="hint">Haz clic en cualquier lugar</span>
+            </div>
+            
+            <div class="letter-content" id="letter">
+                <button class="close-btn" id="closeBtn">✕</button>
+                
+                <h2>Adios, Mi Chinita de Amol ❤️</h2>
+                
+                <div class="decor">💕 💕 💕</div>
+
+                <p>
+                    leelo hasta el final.
+                </p> 
+                
+                <p>
+                    Hola mi niña, no sé si leerás esto, y si lo estás leyendo espero que te esté yendo muy bien en todo, que tu salud y bienestar estén super bien. Deseo que te vaya bien en todo y que las cosas que anhelas las consigas.
+                </p>   
+                
+                <p>
+                    No sé cómo esté yo. Posiblemente entre en depresión o regrese a los vicios, y antes de hacer eso te escribo esto. Nunca te lo dije, pero tú eras mi sueño hecho realidad. Después de tantos años por fin logré amar de nuevo. Sé que será muy tarde, pero ahora ya lo sabes.
+                </p>
+
+                <p>
+                    La razón por la que me porté así ese día fue que mi mami estaba mal y, como siempre, yo estaba cargando con todo. No te quería decir porque tú estabas con tus cosas y solo iba a estresarte más, o eso creo. No es excusa, sé que te lastimé y no sabes cuánto me arrepiento de eso.
+                </p>
+
+                <p>
+                    Como te dije anteriormente, no sé cómo esté ahora, pero quiero decirte que tú eras lo que me mantenía a seguir adelante y conseguir todas esas cosas que alguna vez anhelé nuevamente. Si logro salir de donde sea que esté, te prometo que mejoraré todo de mí. Perdón si no te lo dije, pero a veces me daban ataques de ansiedad y por ratos no sabía cómo controlarme.
+                </p>
+
+                <p>
+                    Mejoraré por si algún día nos volvemos a reencontrar, con muchas más cicatrices pero mejores. Aprendí mucho contigo y qué cosas debo mejorar. Probablemente esté llorando al escribir esto, pero quería un futuro hermoso contigo. Sé que a ti no te gusta hacer planes a futuro, por eso no te decía o mencionaba mucho eso. Sé que ya será muy tarde para solucionarlo todo.
+                </p>
+
+                <p>
+                    Pero si decides volver, seré mejor. Probablemente después de terminar el internado me manden a otro departamento, dependerá mucho de cómo esté. Y si ese día fue nuestro último encuentro, aunque amargo por mi culpa, te deseo todo lo mejor. Que Diosito te cuide y proteja.
+                </p>
+                
+                <p>
+                    Nadie sabe cómo será el futuro. No sé lo que me preparará a mí. Esa intensidad que sentí cuando te conocí no la sentí con nadie, ni después de que nos hayamos separado esos 8 meses. Y lo más probable es que en el futuro no me interese estar con nadie.
+                </p>
+
+                <p>
+                    Tú eras mi única salvación y quizá no te traté de la mejor forma por no saber controlarme, y lo lamento mucho. No sé cuánto tiempo me llevará salir de la depresión o de la ansiedad que me generará esta despedida, pero quiero que sigas adelante pase lo que me pase.
+                </p>
+
+                <p>
+                    Perdón si te fallé como pareja. No supe controlar mis emociones y exploté sin querer. Ahora llegó el momento de pagar el precio de ello.
+                </p>
+
+                <p>
+                    También quería decirte que no dudes absolutamente del amor que te tengo. Es muy grande y posiblemente me desaparezca de todo lado. Sea cual sea la situación, que nadie te haga dudar del valor que tienes. Eres una gran mujer con grandes conocimientos y muchas metas por cumplir. Que nadie te haga dudar de eso.
+                </p>
+
+                <p>
+                    Y si tuviera dos opciones: 1. En la que pasaría lo mismo pero corrigiendo algunas cosas. 2. Nunca haberte conocido. Siempre escogería la 1 porque, a pesar de todo, siempre te amaré como no te lo imaginas. Cuando leas esto posiblemente ya esté deprimido o saliendo de eso, pero sea cual sea la situación, nunca te detengas.
+                </p>
+
+                <p>
+                    Tú y mi mami eran mis motivos para salir adelante, pero mi mami ya está más cansadita cada día. Ahora que estoy sin ti no sé qué riendas tomaré o qué metas tendré, ya que como te dije una vez, tú eras la última mujer. Tal vez muera solo por la desconfianza que tengo hacia las personas, ya que las heridas que tengo son demasiadas.
+                </p>
+
+                <p>
+                    Pero bueno, al punto: te deseo lo mejor. Cumple todas tus metas, que nada ni nadie te detenga. Sé que nuestra despedida no fue lo más bonito posible, pero si llegas a ver esto no sé después de días, semanas, meses o años, ya sabes que siempre te quise tal y como eras. Una niña dulce, a la que por cosas de la vida lastimaron pero que si llegan a ver cómo es, apreciarán que es una mujer de verdad.
+                </p>
+
+                <p>
+                    Te amé con todo y tus cicatrices. No tengas pena de eso, ya que por eso estás donde estás ahora. Calla la boca de los demás y sigue adelante, que nada te detenga. Por mi parte te deseo lo mejor, y como más de una vez te lo dije: te quiero, te amo y siempre te desearé aunque ya no estés a mi lado.
+                </p>
+
+                <p>
+                    Las últimas canciones que te dedicare seran estas:
+                </p>
+
+                <div class="song-links">
+                    <span class="label">🎵 Aun nose como decir adios 🎵</span>
+                    <a href="https://www.youtube.com/watch?v=QAItMep0GiA&list=RDQAItMep0GiA&start_radio=1" target="_blank">💕 Te Amo y Más - El Libro de la Vida</a>
+                    <a href="https://www.youtube.com/watch?v=gyeaJVzDrl8&list=RDgyeaJVzDrl8&start_radio=1" target="_blank">💕 Aunque no sea Conmigo - Bunbury</a>
+                    <a href="https://www.youtube.com/watch?v=rOKa0chUM2k&list=RDrOKa0chUM2k&start_radio=1" target="_blank">💕 Un Siglo sin ti - Chayanne</a>
+                    <a href="https://www.youtube.com/watch?v=eGnf25tzuVs&list=RDeGnf25tzuVs&start_radio=1" target="_blank">💕 Contigo - Los Panchos</a>
+                    <a href="https://www.youtube.com/watch?v=hyAg4QevVqM&list=RDhyAg4QevVqM&start_radio=1" target="_blank">💕 Yo no te olvido amor - Pasión Andina</a>
+                    <a href="https://www.youtube.com/watch?v=iiFvq4e-NWo&list=RDiiFvq4e-NWo&start_radio=1" target="_blank">💕 Nunca te voy a olvidar - AB Quintanilla</a>
+                    <a href="https://www.youtube.com/watch?v=U1IilAPFpAQ&list=RDU1IilAPFpAQ&start_radio=1&rv=Tg5-KYn-zHo" target="_blank">💕 Mil demonios - Moderatto</a>
+                    <a href="https://www.youtube.com/watch?v=vCt1NUlH_O0&list=RDMMvCt1NUlH_O0&start_radio=1" target="_blank">💕 Gracias Amor - Matecaña</a>
+                    <a href="https://www.youtube.com/watch?v=SzfcCkjjTYk&list=RDMMvCt1NUlH_O0&index=9" target="_blank">💕 Gracias - Sonido Mazter</a>
+                </div>
+
+                <div class="decor">💕 💕 💕</div>
+
+                <p class="sign">
+                    No olvides que te amaré por siempre,<br>
+                    Alejandro 💔
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Crear corazones flotantes
+        function createHearts() {
+            const container = document.getElementById('hearts');
+            const emojis = ['❤️', '💕', '💗', '💖', '✨', '💝', '🥺'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'heart-float';
+                heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = (Math.random() * 8) + 's';
+                heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                heart.style.fontSize = (Math.random() * 1.2 + 0.8) + 'rem';
+                container.appendChild(heart);
+            }
+
+            setInterval(() => {
+                const heart = document.createElement('span');
+                heart.className = 'heart-float';
+                heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                heart.style.fontSize = (Math.random() * 1.2 + 0.8) + 'rem';
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 8000);
+            }, 2000);
+        }
+
+        createHearts();
+
+        const envelope = document.getElementById('envelope');
+        const closeBtn = document.getElementById('closeBtn');
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.close-btn')) return;
+            if (!envelope.classList.contains('open')) {
+                envelope.classList.add('open');
+            }
+        });
+
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            envelope.classList.remove('open');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (envelope.classList.contains('open')) {
+                const letter = document.getElementById('letter');
+                const envelopeEl = document.getElementById('envelope');
+                if (!letter.contains(e.target) && !envelopeEl.contains(e.target)) {
+                    envelope.classList.remove('open');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
